@@ -2,7 +2,7 @@
 name: bd-intern
 description: "BD intern agent (general) — configurable BD agent for any company"
 user-invocable: true
-allowed-tools: Read, Glob, Grep, AskUserQuestion, Agent, mcp__claude_ai_Linear__*, WebSearch, WebFetch, Write, Edit, mcp__claude_ai_Slack__*
+allowed-tools: Read, Glob, Grep, AskUserQuestion, Agent, mcp__claude_ai_Linear__*, WebSearch, WebFetch, Write, Edit, mcp__claude_ai_Slack__*, mcp__playwright__*
 ---
 
 # /bd-intern — BD Intern Agent (Configurable)
@@ -32,6 +32,8 @@ If the user provides a sub-command or clear intent, route directly by reading th
 | `/bd-intern deal <company>` or brief-related | `~/.claude/plugins/bd-intern/commands/deal.md` |
 | `/bd-intern sales-enablement` or deck/briefing/debrief-related | `~/.claude/plugins/bd-intern/commands/sales-enablement.md` |
 | `/bd-intern crm <company or person>` or stakeholder/contact lookup | `~/.claude/plugins/bd-intern/commands/crm.md` |
+| `/bd-intern crypto` or crypto-related | `~/.claude/plugins/bd-intern/commands/crypto-discover.md` |
+| `/bd-intern discover` or crypto discover | `~/.claude/plugins/bd-intern/commands/crypto-discover.md` |
 
 ## Menu
 
@@ -51,7 +53,8 @@ BD Intern — What do you need?
 9. Follow-ups — Track overdue action items
 10. Sales Enablement — Decks, briefings, debriefs (/sales-enablement)
 11. CRM — Look up stakeholders and contacts (/crm <company or person>)
-12. Setup — Reconfigure company profile (/bd-intern setup)
+12. Crypto Prospect — Discover crypto/Web3 prospects (/bd-intern discover)
+13. Setup — Reconfigure company profile (/bd-intern setup)
 ```
 
 Ask the user to pick or describe what they need.

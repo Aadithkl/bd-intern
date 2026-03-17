@@ -1,0 +1,69 @@
+# Custom Source: Excel/CSV
+
+Add your Excel or CSV files as data sources for prospect discovery.
+
+## Format Support
+
+| Format | Extensions | Requirements |
+|--------|------------|--------------|
+| Excel | .xlsx, .xls | Must have headers in first row |
+| CSV | .csv | Must have headers in first row |
+
+## Required Fields
+
+At minimum, your file must have a column for:
+- `company` or `company_name` - Company name (required)
+
+## Optional Fields
+
+Any additional columns become searchable filters:
+- `website` or `url` - Company website
+- `email` - Contact email
+- `stage` - Funding stage (seed, series_a, etc.)
+- `industry` or `category` - Industry/category
+- `chain` - Blockchain chain
+- `tvl` - TVL (if applicable)
+- Any custom column you define
+
+## Configuration
+
+```yaml
+custom_sources:
+  - name: "my_data_source"
+    type: "excel"  # or "csv"
+    path: "~/path/to/file.xlsx"
+    schema:
+      # Required
+      company: "Company Name"  # Column header in your file
+      
+      # Optional - maps column names
+      website: "Website URL"
+      email: "Contact Email"
+      stage: "Funding Stage"
+      industry: "Industry"
+      chain: "Chain"
+      tvl: "TVL"
+```
+
+## Example Excel File
+
+| Company Name | Website | Industry | Chain | Stage |
+|--------------|---------|----------|-------|-------|
+| Protocol A | protocola.com | DeFi | Ethereum | Series A |
+| Protocol B | protocolb.com | NFT | Solana | Seed |
+| Protocol C | protocolc.com | Gaming | Arbitrum | Series B |
+
+## Query Examples
+
+```
+/crypto-prospect discover my excel file companies on Ethereum
+/crypto-prospect discover my excel file defi companies
+/crypto-prospect discover my file companies at series a stage
+```
+
+## Notes
+
+- File path can be absolute or relative (~ for home directory)
+- If column names don't match exactly, use the `schema` mapping
+- Excel files are parsed at runtime - keep file accessible
+- For large files, consider using Google Sheets instead

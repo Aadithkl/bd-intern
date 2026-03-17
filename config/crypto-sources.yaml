@@ -1,0 +1,136 @@
+# Crypto Prospect Sources Configuration
+# Copy to crypto-sources.yaml and customize
+
+# =============================================================================
+# SOURCE ENABLING
+# Toggle which sources are available for discovery
+# =============================================================================
+
+sources:
+  # API Sources
+  defillama:
+    enabled: true
+    type: "api"
+    free: true
+    description: "TVL, chains, protocols, yields"
+    
+  coingecko:
+    enabled: true
+    type: "api"
+    free: true
+    api_key: null  # Optional - works without
+    description: "Token prices, market cap, categories"
+    
+  debank:
+    enabled: false
+    type: "api"
+    free: true  # Limited free tier
+    api_key: null
+    description: "On-chain portfolios, token holdings"
+    
+  dune:
+    enabled: false
+    type: "api"
+    free: true  # Limited credits (2,500/mo)
+    api_key: null
+    description: "Custom on-chain queries"
+    
+  # Browser/Scraper Sources
+  linkedin:
+    enabled: true
+    type: "api"
+    provider: "stableenrich"
+    description: "LinkedIn profile scraping and contact enrichment"
+    
+  apollo:
+    enabled: true
+    type: "api"
+    provider: "stableenrich"
+    description: "People and organization search with deep filters"
+    
+  rootdata:
+    enabled: true
+    type: "browser"
+    scrape_method: "webfetch"  # or "playwright"
+    description: "Projects, fundraising rounds, investors"
+    
+  crypto_fundraising:
+    enabled: true
+    type: "browser"
+    scrape_method: "webfetch"
+    description: "Recent deals, investors, rounds"
+    
+  crunchbase:
+    enabled: true
+    type: "browser"
+    scrape_method: "webfetch"
+    description: "Funding stage, investors, company info"
+    
+  # WebSearch Sources
+  twitter:
+    enabled: true
+    type: "websearch"
+    description: "Followers, engagement, activity"
+    
+  github:
+    enabled: true
+    type: "websearch"
+    description: "Code activity, repos, contributors"
+
+# =============================================================================
+# CUSTOM SOURCES
+# Add your own data sources (Excel, Sheets, APIs, etc.)
+# =============================================================================
+
+custom_sources: []
+# Uncomment and add your custom sources:
+# - name: "event_attendees"
+#   type: "excel"
+#   path: "~/Documents/events.xlsx"
+#   schema:
+#     company: "Company Name"
+#     website: "URL"
+
+# =============================================================================
+# RATE LIMITING
+# Configure delays to avoid rate limits
+# =============================================================================
+
+rate_limiting:
+  enabled: true
+  delay_ms: 2000  # Default delay between requests
+  
+  # Per-source type overrides (optional)
+  delays:
+    api: 500        # API calls (defillama, coingecko, etc.)
+    websearch: 1000 # Web searches
+    browser: 2000   # Browser scraping
+    custom: 0       # Local files
+
+# =============================================================================
+# API KEYS
+# Optional - free tiers work without keys
+# =============================================================================
+
+api_keys:
+  coingecko: ""     # Get from https://www.coingecko.com/en/api
+  debank: ""        # Get from https://debank.com/
+  dune: ""          # Get from https://dune.com/
+  rootdata: ""      # Get from https://www.rootdata.com/Api
+
+# =============================================================================
+# DISCOVERY PREFERENCES
+# =============================================================================
+
+discovery:
+  # Default number of results to show
+  default_limit: 10
+  
+  # Maximum results
+  max_results: 50
+  
+  # Show matched filters in results
+  show_filters: true
+  
+  # Auto-research prompt after discovery
+  prompt_research: true

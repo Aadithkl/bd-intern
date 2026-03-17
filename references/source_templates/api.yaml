@@ -1,0 +1,147 @@
+# Custom Source: REST API
+
+Connect to any REST API as a data source for prospect discovery.
+
+## Configuration
+
+```yaml
+custom_sources:
+  - name: "my_api_source"
+    type: "api"
+    
+    # Base URL (without trailing slash)
+    base_url: "https://api.example.com"
+    
+    # Endpoint to fetch data
+    endpoint: "/v1/companies"
+    
+    # HTTP method
+    method: "GET"  # GET or POST
+    
+    # Authentication
+    auth:
+      type: "bearer"  # Options: bearer, api_key, basic, none
+      token: "${API_KEY}"  # Environment variable
+      
+    # Or for API key in header
+    # auth:
+    #   type: "api_key"
+    #   header: "X-API-Key"
+    #   value: "${API_KEY}"
+    
+    # Default query parameters (optional)
+    params:
+      limit: 100
+      status: "active"
+    
+    # Request headers (optional)
+    headers:
+      "Accept": "application/json"
+      "User-Agent": "CryptoProspect/1.0"
+    
+    # Response mapping
+    response:
+      # JSON path to results array
+      root: "data.companies"  # or "results" or "data"
+      
+      # Field mappings
+      company: "name"
+      website: "url"
+      stage: "funding_stage"
+      industry: "category"
+      chain: "blockchain"
+```
+
+## Authentication Types
+
+### Bearer Token
+```yaml
+auth:
+  type: "bearer"
+  token: "${MY_API_TOKEN}"
+```
+
+### API Key in Header
+```yaml
+auth:
+  type: "api_key"
+  header: "X-API-Key"
+  value: "${API_KEY}"
+```
+
+### API Key in Query Parameter
+```yaml
+auth:
+  type: "api_key"
+  param: "api_key"
+  value: "${API_KEY}"
+```
+
+### Basic Auth
+```yaml
+auth:
+  type: "basic"
+  username: "${USER}"
+  password: "${PASS}"
+```
+
+## Response Mapping Examples
+
+### Simple Response
+```json
+{
+  "companies": [
+    {"name": "Company A", "url": "https://companya.com"},
+    {"name": "Company B", "url": "https://companyb.com"}
+  ]
+}
+```
+```yaml
+response:
+  root: "companies"
+  company: "name"
+  website: "url"
+```
+
+### Nested Response
+```json
+{
+  "data": {
+    "results": [
+      {"company_name": "Company A", "website_url": "https://companya.com"}
+    ]
+  }
+}
+```
+```yaml
+response:
+  root: "data.results"
+  company: "company_name"
+  website: "website_url"
+```
+
+### Paginated Response
+```yaml
+response:
+  root: "items"
+  company: "title"
+  pagination:
+    next_page: "links.next"
+    has_more: "meta.has_more"
+```
+
+## Query Examples
+
+```
+/crypto-prospect discover my api companies on Ethereum
+/crypto-prospect discover my rest endpoint defi companies
+/crypto-prospect discover my custom source
+```
+
+## Best Practices
+
+1. Use environment variables for API keys
+2. Set appropriate rate limiting
+3. Handle errors gracefully
+4. Cache responses if API has limits
+5. Test with small requests first

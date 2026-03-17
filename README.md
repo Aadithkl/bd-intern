@@ -67,6 +67,71 @@ cp ~/.claude/plugins/bd-intern/config/company.example.yaml ~/.claude/plugins/bd-
 | **Sales Enablement** | Meeting decks, pre-call briefings, post-meeting debriefs, technical briefs, one-pagers, competitive positioning. |
 | **Competitive Intel** | Competitor profiles, landscape maps, and battle cards. |
 | **Follow-Up Tracking** | Surfaces overdue action items across all deals. |
+| **Crypto Prospect Discovery** (NEW) | Find crypto/Web3 prospects using natural language with 10+ data sources. Discover projects by TVL, social presence, fundraising, and more. |
+
+## Crypto Prospect Discovery
+
+A specialized feature for crypto/Web3 prospect discovery. Find potential prospects using natural language queries across multiple data sources.
+
+### Quick Start
+
+```bash
+# Configure sources (first time only)
+/crypto-prospect setup
+
+# Discover prospects
+/crypto-prospect discover defillama protocols under 5M TVL
+/crypto-prospect discover twitter accounts 5k-20k followers defi
+/crypto-prospect discover rootdata projects raised 2025
+
+# Research a specific company
+/crypto-prospect <company>
+```
+
+### Available Sources (10 Total)
+
+| Source | Type | Data | Key Required |
+|--------|------|------|--------------|
+| defillama | API | TVL, chains, protocols | ❌ No |
+| coingecko | API | Token prices, market cap | ❌ Optional |
+| debank | API | On-chain portfolios | ❌ Optional |
+| dune | API | Custom queries | ✅ Yes |
+| rootdata | Browser | Projects, fundraising | ❌ Optional |
+| crypto_fundraising | Browser | Deal flow | ❌ No |
+| crunchbase | Browser | Funding, stage | ❌ Optional |
+| twitter | WebSearch | Followers, activity | ✅ AgentCash |
+| github | WebSearch | Code activity | ❌ No |
+| custom | User file | Excel, Sheets, Notion | ❌ No |
+
+> **Note**: For Twitter/X data (followers, engagement), [AgentCash](https://agentcash.ai) is recommended for accurate, real-time metrics.
+
+### Custom Sources
+
+Add your own data sources:
+- Excel/CSV files
+- Google Sheets
+- REST APIs
+- Notion databases
+
+See `references/source_templates/` for configuration guides.
+
+### Required Dependencies
+
+For full functionality, install:
+
+- **AgentCash** (RECOMMENDED) - Twitter/X search, people/company search, scraping, and more. Sign up at [agentcash.ai](https://agentcash.ai)
+- **Playwright MCP** - Browser automation for scraping (rootdata, crunchbase)
+- **Linear MCP** - Pipeline/CRM integration (handled via OAuth during setup)
+- **DeFiLlama MCP** - TVL data (optional, free API available)
+- **Dune MCP** - Custom queries (optional)
+
+### Configuration
+
+Edit `config/crypto-sources.yaml` to:
+- Enable/disable sources
+- Add API keys (optional - free tiers work)
+- Add custom sources
+- Adjust rate limiting
 
 ## Configuration
 

@@ -1,0 +1,81 @@
+# Custom Source: Google Sheets
+
+Connect to Google Sheets as a data source for prospect discovery.
+
+## Prerequisites
+
+1. Google Cloud Project with Sheets API enabled
+2. Service account with access to the spreadsheet
+3. Share the spreadsheet with the service account email
+
+## Getting Credentials
+
+1. Go to https://console.cloud.google.com/
+2. Create a project
+3. Enable Google Sheets API
+4. Create service account credentials
+5. Download JSON key file
+6. Share your spreadsheet with the service account email
+
+## Configuration
+
+```yaml
+custom_sources:
+  - name: "my_sheets_source"
+    type: "google_sheets"
+    credentials: "~/.credentials/google-sheets.json"  # Service account JSON
+    spreadsheet_id: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+    sheet_name: "Sheet1"  # Optional - defaults to first sheet
+    
+    schema:
+      company: "Company"
+      website: "Website"
+      stage: "Stage"
+      industry: "Industry"
+```
+
+## Finding Spreadsheet ID
+
+From your Google Sheets URL:
+```
+https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit#gid=0
+```
+
+The ID is the string between `/d/` and `/edit`
+
+## Required Fields
+
+| Field | Description |
+|-------|-------------|
+| company | Company name (required) |
+
+## Optional Fields
+
+| Field | Description |
+|-------|-------------|
+| website | Company website |
+| email | Contact email |
+| stage | Funding stage |
+| industry | Industry/category |
+| chain | Blockchain |
+| Any custom | Any column in your sheet |
+
+## Query Examples
+
+```
+/crypto-prospect discover my sheets companies on Ethereum
+/crypto-prospect discover google sheets defi companies
+/crypto-prospect discover my portfolio companies at series a
+```
+
+## Security Notes
+
+- Keep your credentials JSON file secure
+- Don't commit credentials to version control
+- Use environment variables for sensitive data
+- The service account email should have read-only access
+
+## Rate Limits
+
+- Google Sheets API: 100 requests per 100 seconds
+- Built-in rate limiting handles this automatically

@@ -1,0 +1,115 @@
+# Custom Source: Notion Database
+
+Connect to a Notion database as a data source for prospect discovery.
+
+## Prerequisites
+
+1. Notion account
+2. Notion integration with database access
+3. Share your database with the integration
+
+## Getting Started
+
+1. Go to https://www.notion.so/my-integrations
+2. Create a new integration
+3. Get the Internal Integration Secret
+4. Share your database with the integration:
+   - Open your database in Notion
+   - Click the three dots (•••)
+   - Select "Connections"
+   - Add your integration
+
+## Configuration
+
+```yaml
+custom_sources:
+  - name: "notion_leads"
+    type: "notion"
+    api_key: "${NOTION_API_KEY}"  # Internal Integration Secret
+    database_id: "your-database-id"
+    
+    # Field mappings
+    schema:
+      company: "Company Name"    # Database property name
+      website: "Website"
+      stage: "Stage"
+      industry: "Category"
+      last_contact: "Last Contact"
+      notes: "Notes"
+```
+
+## Finding Database ID
+
+From your Notion database URL:
+```
+https://notion.so/your-workspace/DATABASE_ID?v=...
+```
+
+The ID is the 32-character string after your workspace name.
+
+## Supported Property Types
+
+| Notion Type | Maps To |
+|-------------|---------|
+| Title | company (required) |
+| Text | company, website, etc. |
+| Select | stage, industry, category |
+| Multi-select | tags, categories |
+| Date | date, last_contact |
+| URL | website |
+| Email | email |
+| Phone | phone |
+| Number | tvl, employees |
+| Checkbox | active, qualified |
+| Person | owner |
+| Relation | related companies |
+
+## Example Notion Database
+
+Properties:
+- Company Name (Title)
+- Website (URL)
+- Industry (Select: DeFi, NFT, Infrastructure, etc.)
+- Stage (Select: Seed, Series A, Series B, etc.)
+- Chain (Multi-select)
+- TVL (Number)
+- Last Contact (Date)
+- Notes (Text)
+
+## Query Examples
+
+```
+/crypto-prospect discover notion companies on Ethereum
+/crypto-prospect discover my notion defi companies
+/crypto-prospect discover notional database companies at series a
+```
+
+## Configuration
+
+```yaml
+custom_sources:
+  - name: "my_notion"
+    type: "notion"
+    api_key: "${NOTION_KEY}"
+    database_id: "32-character-id-here"
+    
+    schema:
+      company: "Company Name"
+      website: "Website"
+      stage: "Funding Stage"
+      industry: "Category"
+      chain: "Chains"
+      tvl: "TVL"
+```
+
+## Security Notes
+
+- Never commit your API key to version control
+- Use environment variables
+- The integration only has access to explicitly shared databases
+- Can be set to read-only access
+
+## Rate Limits
+
+- Notion API: 3 requests per second
+- Built-in rate limiting handles this automatically
